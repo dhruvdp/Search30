@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+	<title>InstaSearch</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+	<link href='http://fonts.googleapis.com/css?family=Lora' rel='stylesheet' type='text/css'>
+  <link rel="Shortcut Icon" type="image/x-icon" href="//instagramstatic-a.akamaihd.net/h1/images/ico/favicon.ico/7cdab0872b15.ico">
+	<link rel="stylesheet" href="style.css" />
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular-animate.min.js"></script>
+	<script src="app.js"></script>
+</head>
+
+<body ng-app='app' ng-controller='MainCtrl'>
+
+	<div class="container" ng-show="landing">
+		<div class="landing row" >
+			<div class="logo col-xs-12">
+				<img src="//badges.instagram.com/static/images/ig-badge-32.png" alt="Instagram" />
+				<h1>InstaSearch</h1>
+			</div>
+			<form ng-submit='search()' name="instaForm" class="instaForm">
+				<input type="text" name="query" size="30" autofocus required ng-model="tag" placeholder='Search for a keyword'>
+				<input type="submit" value="Submit">
+			</form>
+			<div class="error landingError" ng-hide="count">
+				Please do not include any spaces in your search.
+			</div>
+		</div>
+	</div>
+
+	<div class="showResults" ng-hide="landing">
+
+		<div class="navbar navbar-static-top" role="navigation">
+			<div class="container">
+				<div class="navbar-header" ng-click="home()">
+
+					<h2>InstaSearch</h2>
+				</div>
+				<form class="searchBar navbar-form navbar-left" role="search" name="instaForm">
+					<input type="text" name="query" size="30" autofocus ng-model="tag" required>
+					<div class="searchButton" ng-click="search()">
+						<input type="image" class="searchbutton" name="search" src="images/search.png" alt="Search">
+					</div>
+				</form>
+			</div>
+		</div>
+		<div class="container resultsCon">
+			<div class="row">
+				<div class="messages">
+					<div class="resultCount" ng-show="count">
+						{{photos.length}} results for <span class="query">#{{ query }}</span>
+					</div>
+					<div class="error" ng-hide="count">
+						Please be sure to enter a tag to search for.<br>
+						Do not use any spaces!
+					</div>
+				</div>
+				<div class="searcResults">
+					<div class="instaResult col-lg-3 col-sm-4 col-xs-6" ng-repeat="photo in photos">
+						<img class="photo" ng-src=" {{photo.images.low_resolution.url}} " />
+						<div class="details">
+							<img src="images/heart.png" class="heart">
+							<span class="likes">{{ photo.likes.count}}</span>
+							<div class="actions">
+								<a href="{{photo.images.low_resolution.url}}" download="{{query}}" class="download"><img src="images/download.png"></a>
+								<a href="{{ photo.link }}" target="_blank"></a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
